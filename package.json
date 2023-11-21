@@ -1,0 +1,24 @@
+{
+  "name": "git-hub-scanner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc",
+    "start":"node dist/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^20.9.3",
+    "axios": "^1.6.2",
+    "express": "^4.18.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21"
+  }
+}
