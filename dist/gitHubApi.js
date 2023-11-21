@@ -16,7 +16,7 @@ exports.githubRequest = void 0;
 // src/githubApi.ts
 const axios_1 = __importDefault(require("axios"));
 const githubRequest = (url, method = 'get', data = {}) => __awaiter(void 0, void 0, void 0, function* () {
-    const githubToken = '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';
+    const githubToken = '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';
     const headers = {
         Authorization: `Bearer ${githubToken}`, // Replace with your GitHub token
     };
