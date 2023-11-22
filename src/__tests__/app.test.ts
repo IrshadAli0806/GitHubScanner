@@ -1,7 +1,7 @@
 // __tests__/app.test.ts
 import request from 'supertest';
 import express from 'express';
-import { router } from '../src/routes';
+import { router } from '../routes';
 
 const app = express();
 app.use(express.json());
