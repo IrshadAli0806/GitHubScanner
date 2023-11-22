@@ -11,7 +11,7 @@ const getRepositoryDetails = async (owner: string, repo: string,githubToken:stri
     const yamlFiles = await githubRequest(`https://api.github.com/repos/${owner}/${repo}/contents/.github/workflows`,githubToken)
    
    let ymlFileContent:any = {};
-   if (contents.length > 0) {
+   if (yamlFiles && yamlFiles?.length>0) {
    // If the repository has at least one YAML file
      const ymlFile = yamlFiles.find((file: { name: string; }) => file.name.endsWith('.yml') || file.name.endsWith('.yaml'));
      if (ymlFile) {

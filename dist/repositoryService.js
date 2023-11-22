@@ -19,8 +19,9 @@ const getRepositoryDetails = (owner, repo, githubToken) => __awaiter(void 0, voi
         // Fetching the contents of 1 YAML file
         const contents = yield (0, gitHubApi_1.githubRequest)(`https://api.github.com/repos/${owner}/${repo}/contents`, githubToken);
         const yamlFiles = yield (0, gitHubApi_1.githubRequest)(`https://api.github.com/repos/${owner}/${repo}/contents/.github/workflows`, githubToken);
+        console.log("Yaml file", yamlFiles);
         let ymlFileContent = {};
-        if (contents.length > 0) {
+        if (yamlFiles && (yamlFiles === null || yamlFiles === void 0 ? void 0 : yamlFiles.length) > 0) {
             // If the repository has at least one YAML file
             const ymlFile = yamlFiles.find((file) => file.name.endsWith('.yml') || file.name.endsWith('.yaml'));
             if (ymlFile) {
