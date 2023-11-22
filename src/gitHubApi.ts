@@ -1,8 +1,8 @@
 // src/githubApi.ts
 import axios from 'axios';
 
-const githubRequest = async (url: string, method = 'get', data = {}): Promise<any> => {
-    const githubToken = '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';
+const githubRequest = async (url: string,githubToken:string, method = 'get', data = {}): Promise<any> => {
+    //const githubToken = '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';
     const headers = {
     Authorization: `Bearer ${githubToken}`, // Replace with your GitHub token
   };

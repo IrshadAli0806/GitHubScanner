@@ -1,27 +1,27 @@
 import { githubRequest } from "./gitHubApi";
 
-const getRepositoryDetails = async (owner: string, repo: string): Promise<any> => {
+const getRepositoryDetails = async (owner: string, repo: string,githubToken:string): Promise<any> => {
   try {
-    const repoDetails : any = await githubRequest(`https://api.github.com/repos/${owner}/${repo}`);
+    const repoDetails : any = await githubRequest(`https://api.github.com/repos/${owner}/${repo}`,githubToken);
     const repoSize : number = repoDetails.size;
     const isPrivate :boolean = repoDetails.private;
-
+    
     // Fetching the contents of 1 YAML file
-    const contents:any[] = await githubRequest(`https://api.github.com/repos/${owner}/${repo}/contents`);
-    const yamlFiles = await githubRequest(`https://api.github.com/repos/${owner}/${repo}/contents/.github/workflows`)
+    const contents:any[] = await githubRequest(`https://api.github.com/repos/${owner}/${repo}/contents`,githubToken);
+    const yamlFiles = await githubRequest(`https://api.github.com/repos/${owner}/${repo}/contents/.github/workflows`,githubToken)
    
    let ymlFileContent:any = {};
    if (contents.length > 0) {
    // If the repository has at least one YAML file
      const ymlFile = yamlFiles.find((file: { name: string; }) => file.name.endsWith('.yml') || file.name.endsWith('.yaml'));
      if (ymlFile) {
-       ymlFileContent = await githubRequest(ymlFile.url); // Fetch content of the YAML file
+       ymlFileContent = await githubRequest(ymlFile.url,githubToken); // Fetch content of the YAML file
        ymlFileContent = Buffer.from(ymlFileContent.content, 'base64').toString();
      }
    }
 
    //Fetching active webhooks
-   const webhooks = await githubRequest(`https://api.github.com/repos/${owner}/${repo}/hooks`);
+   const webhooks = await githubRequest(`https://api.github.com/repos/${owner}/${repo}/hooks`,githubToken);
 
    return {
      name: repoDetails.name,
