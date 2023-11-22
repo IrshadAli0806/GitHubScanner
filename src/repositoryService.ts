@@ -2,13 +2,13 @@ import { githubRequest } from "./gitHubApi";
 
 const getRepositoryDetails = async (owner: string, repo: string,githubToken:string): Promise<any> => {
   try {
-    const repoDetails : any = await githubRequest(`https://api.github.com/repos/${owner}/${repo}`,githubToken);
+    const repoDetails : any = await githubRequest(`${process.env.GIT_HUB_BASE_URL}/repos/${owner}/${repo}`,githubToken);
     const repoSize : number = repoDetails.size;
     const isPrivate :boolean = repoDetails.private;
     
     // Fetching the contents of 1 YAML file
-    const contents:any[] = await githubRequest(`https://api.github.com/repos/${owner}/${repo}/contents`,githubToken);
-    const yamlFiles = await githubRequest(`https://api.github.com/repos/${owner}/${repo}/contents/.github/workflows`,githubToken)
+    const contents:any[] = await githubRequest(`${process.env.GIT_HUB_BASE_URL}/repos/${owner}/${repo}/contents`,githubToken);
+    const yamlFiles = await githubRequest(`${process.env.GIT_HUB_BASE_URL}/repos/${owner}/${repo}/contents/.github/workflows`,githubToken)
    
    let ymlFileContent:any = {};
    if (yamlFiles && yamlFiles?.length>0) {
@@ -21,7 +21,7 @@ const getRepositoryDetails = async (owner: string, repo: string,githubToken:stri
    }
 
    //Fetching active webhooks
-   const webhooks = await githubRequest(`https://api.github.com/repos/${owner}/${repo}/hooks`,githubToken);
+   const webhooks = await githubRequest(`${process.env.GIT_HUB_BASE_URL}/repos/${owner}/${repo}/hooks`,githubToken);
 
    return {
      name: repoDetails.name,

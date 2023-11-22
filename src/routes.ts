@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/repositories', async (req, res) => {
   try {
     const githubToken = req.headers["githubtoken"] as string;
-    const data = await githubRequest('https://api.github.com/user/repos',githubToken);
+    const data = await githubRequest(`${process.env.GIT_HUB_BASE_URL}/user/repos`,githubToken);
     const repositories : Repositories = data.map((repo: any) => ({
       name: repo.name,
       size: repo.size,
