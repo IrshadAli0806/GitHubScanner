@@ -13,3 +13,4 @@ logs
 lib/
 dist/gitHubApi.js
 dist/gitHubApi.js
+.env
