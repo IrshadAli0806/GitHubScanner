@@ -11,25 +11,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getRepositoryDetails = void 0;
 const gitHubApi_1 = require("./gitHubApi");
-const getRepositoryDetails = (owner, repo) => __awaiter(void 0, void 0, void 0, function* () {
+const getRepositoryDetails = (owner, repo, githubToken) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const repoDetails = yield (0, gitHubApi_1.githubRequest)(`https://api.github.com/repos/${owner}/${repo}`);
+        const repoDetails = yield (0, gitHubApi_1.githubRequest)(`https://api.github.com/repos/${owner}/${repo}`, githubToken);
         const repoSize = repoDetails.size;
         const isPrivate = repoDetails.private;
         // Fetching the contents of 1 YAML file
-        const contents = yield (0, gitHubApi_1.githubRequest)(`https://api.github.com/repos/${owner}/${repo}/contents`);
-        const yamlFiles = yield (0, gitHubApi_1.githubRequest)(`https://api.github.com/repos/${owner}/${repo}/contents/.github/workflows`);
+        const contents = yield (0, gitHubApi_1.githubRequest)(`https://api.github.com/repos/${owner}/${repo}/contents`, githubToken);
+        const yamlFiles = yield (0, gitHubApi_1.githubRequest)(`https://api.github.com/repos/${owner}/${repo}/contents/.github/workflows`, githubToken);
         let ymlFileContent = {};
         if (contents.length > 0) {
             // If the repository has at least one YAML file
             const ymlFile = yamlFiles.find((file) => file.name.endsWith('.yml') || file.name.endsWith('.yaml'));
             if (ymlFile) {
-                ymlFileContent = yield (0, gitHubApi_1.githubRequest)(ymlFile.url); // Fetch content of the YAML file
+                ymlFileContent = yield (0, gitHubApi_1.githubRequest)(ymlFile.url, githubToken); // Fetch content of the YAML file
                 ymlFileContent = Buffer.from(ymlFileContent.content, 'base64').toString();
             }
         }
         //Fetching active webhooks
-        const webhooks = yield (0, gitHubApi_1.githubRequest)(`https://api.github.com/repos/${owner}/${repo}/hooks`);
+        const webhooks = yield (0, gitHubApi_1.githubRequest)(`https://api.github.com/repos/${owner}/${repo}/hooks`, githubToken);
         return {
             name: repoDetails.name,
             size: repoSize,

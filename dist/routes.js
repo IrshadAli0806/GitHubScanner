@@ -21,7 +21,8 @@ const router = express_1.default.Router();
 exports.router = router;
 router.get('/repositories', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const data = yield (0, gitHubApi_1.githubRequest)('https://api.github.com/user/repos');
+        const githubToken = req.headers["githubtoken"];
+        const data = yield (0, gitHubApi_1.githubRequest)('https://api.github.com/user/repos', githubToken);
         const repositories = data.map((repo) => ({
             name: repo.name,
             size: repo.size,
@@ -35,15 +36,16 @@ router.get('/repositories', (req, res) => __awaiter(void 0, void 0, void 0, func
 }));
 router.get('/repository/:owner/:repo1/:repo2?/:repo3?', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { owner, repo1, repo2, repo3 } = req.params;
+    const githubToken = req.headers["githubtoken"];
     try {
         // Ensure at most 2 repositories are scanned in parallel
-        const repoPromises = [(0, repositoryService_1.getRepositoryDetails)(owner, repo1)];
+        const repoPromises = [(0, repositoryService_1.getRepositoryDetails)(owner, repo1, githubToken)];
         if (repo2) {
-            repoPromises.push((0, repositoryService_1.getRepositoryDetails)(owner, repo2));
+            repoPromises.push((0, repositoryService_1.getRepositoryDetails)(owner, repo2, githubToken));
         }
         const repoDetails = yield Promise.all(repoPromises);
         if (repo3)
-            repoDetails.push(yield (0, repositoryService_1.getRepositoryDetails)(owner, repo3));
+            repoDetails.push(yield (0, repositoryService_1.getRepositoryDetails)(owner, repo3, githubToken));
         res.json(repoDetails);
     }
     catch (error) {

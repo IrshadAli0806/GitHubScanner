@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.githubRequest = void 0;
 // src/githubApi.ts
 const axios_1 = __importDefault(require("axios"));
-const githubRequest = (url, method = 'get', data = {}) => __awaiter(void 0, void 0, void 0, function* () {
-    const githubToken = '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';
+const githubRequest = (url, githubToken, method = 'get', data = {}) => __awaiter(void 0, void 0, void 0, function* () {
+    //const githubToken = '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';
     const headers = {
         Authorization: `Bearer ${githubToken}`, // Replace with your GitHub token
     };
