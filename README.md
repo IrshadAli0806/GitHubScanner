@@ -1,8 +1,9 @@
 # GitHubScanner
 # To run this project , please follow the below steps
 
-#1 npm run build
-#2 npm run start
+# npm install
+# npm run build
+# npm run start
 
 #for every request client needs to provide githubtoken in request header
 
