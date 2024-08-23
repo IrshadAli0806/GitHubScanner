@@ -2,6 +2,7 @@
 FROM node:22
 
 # Set the working directory in the container
+
 WORKDIR /githubscanner/src
 
 # Copy package.json and package-lock.json files
