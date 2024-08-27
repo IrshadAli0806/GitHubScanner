@@ -3,7 +3,7 @@ FROM node:22-slim
 
 # Set the working directory in the container
 
-WORKDIR /githubscanner/src
+WORKDIR /usr/githubscanner/src
 
 # Copy package.json and package-lock.json files
 COPY package*.json ./
