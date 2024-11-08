@@ -1,0 +1,36 @@
+name: Code Security Scan - Prevent Merge on Critical Issues
+
+on:
+  pull_request:
+    branches:
+      - main  # Run this workflow for pull requests targeting the main branch.
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ['javascript', 'python', 'java']  # Adjust based on your project's languages
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+
+    - name: Fail the build if critical vulnerabilities are found
+      if: always()  # Run this step even if the previous steps fail.
+      run: |
+        # Analyze the CodeQL output for critical vulnerabilities
+        if grep -q 'CRITICAL' ./*/results.sarif; then
+          echo "Critical vulnerabilities found! Failing the build."
+          exit 1
+        else
+          echo "No critical vulnerabilities found."
+        fi
