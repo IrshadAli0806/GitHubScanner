@@ -47,4 +47,9 @@ router.get('/repository/:owner/:repo1/:repo2?/:repo3?', async (req, res) => {
     }
 });
 
+router.get('/profile', (req, res) => {
+  const userInput = req.query.name; // This could come from user input, such as a URL query parameter
+  res.send(`<h1>Hello, ${userInput}!</h1>`); // Directly inserting untrusted data into the page
+});
+
 export { router };
