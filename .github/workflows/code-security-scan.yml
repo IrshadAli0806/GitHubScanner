@@ -19,15 +19,15 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
-        languages: ['javascript', 'python', 'java']  # Adjust based on your project's languages
+         languages: ['javascript', 'python', 'java']  # Adjust based on your project's languages
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
 
     - name: Fail the build if critical vulnerabilities are found
-      if: always()  # Run this step even if the previous steps fail.
+      if: always()  # Ensure this step runs even if previous steps fail.
       run: |
-        # Analyze the CodeQL output for critical vulnerabilities
+        # Check for critical vulnerabilities in the CodeQL output
         if grep -q 'CRITICAL' ./*/results.sarif; then
           echo "Critical vulnerabilities found! Failing the build."
           exit 1
