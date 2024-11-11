@@ -96,7 +96,7 @@ jobs:
       run: |
         # Extract results and check for vulnerabilities with CRITICAL severity
         echo "Checking for critical vulnerabilities..."
-        sarif_file=$(find . -name "*.sarif" | head -n 1)
+        sarif_file=$(find ./codeql -name "*.sarif" | head -n 1)
         echo "Found SARIF file: $sarif_file"
         if [ -n "$sarif_file" ]; then
           critical_issues=$(jq '[.runs[].results[] | select(.ruleId | test("CRITICAL"))] | length' "$sarif_file")
