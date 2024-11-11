@@ -97,8 +97,9 @@ jobs:
         # Extract results and check for vulnerabilities with CRITICAL severity
         echo "Checking for critical vulnerabilities..."
         sarif_file=$(find . -name "*.sarif" | head -n 1)
+        echo "Found SARIF file: $sarif_file"
         if [ -n "$sarif_file" ]; then
-          critical_issues=$(jq '[.runs[].results[] | select(.ruleId | test("CRITICAL"))] | length' "$sarif_file")
+          critical_issues=$(jq '[.runs[].results[] | select(.ruleId | test("CRITICAL") | test("HIGH"))] | length' "$sarif_file")
           if [ "$critical_issues" -gt 0 ]; then
             echo "Critical vulnerabilities found! Failing the build."
             exit 1
