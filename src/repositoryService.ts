@@ -10,14 +10,14 @@ const getRepositoryDetails = async (owner: string, repo: string,githubToken:stri
     const contents:any[] = await githubRequest(`${process.env.GIT_HUB_BASE_URL}/repos/${owner}/${repo}/contents`,githubToken);
     const yamlFiles = await githubRequest(`${process.env.GIT_HUB_BASE_URL}/repos/${owner}/${repo}/contents/.github/workflows`,githubToken)
    
-   let ymlFileContent:any = {};
-   if (yamlFiles && yamlFiles?.length>0) {
-   // If the repository has at least one YAML file
+    let ymlFileContent:any = {};
+    if (yamlFiles && yamlFiles?.length>0) {
+    // If the repository has at least one YAML file
      const ymlFile = yamlFiles.find((file: { name: string; }) => file.name.endsWith('.yml') || file.name.endsWith('.yaml'));
      if (ymlFile) {
        ymlFileContent = await githubRequest(ymlFile.url,githubToken); // Fetch content of the YAML file
        ymlFileContent = Buffer.from(ymlFileContent.content, 'base64').toString();
-     }
+      }
    }
 
    //Fetching active webhooks
