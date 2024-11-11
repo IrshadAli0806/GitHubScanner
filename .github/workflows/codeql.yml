@@ -86,17 +86,28 @@ jobs:
         echo '  make release'
         exit 1
 
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: ${{ matrix.language }}
+        build-mode: ${{ matrix.build-mode }}
+        
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
-      with:
-        category: "/language:${{matrix.language}}"
-    
+      
+   #- name: Perform CodeQL Analysis
+   #  uses: github/codeql-action/analyze@v3
+   # with:
+   #  category: "/language:${{matrix.language}}"
+
+    # Step to fail the build if any vulnerabilities are found
     - name: Fail build on critical vulnerabilities
       if: always()  # Run this step even if previous steps fail
       run: |
         # Extract results and check for vulnerabilities with CRITICAL severity
         echo "Checking for critical vulnerabilities..."
-        sarif_file=$(find ./github/codeql -name "*.sarif" | head -n 1)
+        sarif_file=$(find . -name "*.sarif" | head -n 1)
         echo "Found SARIF file: $sarif_file"
         if [ -n "$sarif_file" ]; then
           critical_issues=$(jq '[.runs[].results[] | select(.ruleId | test("CRITICAL"))] | length' "$sarif_file")
