@@ -108,4 +108,5 @@ jobs:
           fi
         else
           echo "No SARIF report found."
+          exit 1
         fi
